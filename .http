@@ -1,0 +1,51 @@
+### Obtener Personas
+GET http://localhost:4000/person
+content-type: application/json
+
+
+### Obtener Persona por Id
+GET http://localhost:4000/person/id/1
+content-type: application/json
+
+### Obtener Persona por Nombre
+GET http://localhost:4000/person/name/alban
+content-type: application/json
+
+### Crear Persona
+POST http://localhost:4000/person
+content-type: application/json
+
+{
+    "firstName": "Albano",
+    "lastName": "Albano",
+    "birthdate": "1999-02-16",
+    "hasInsurance": false,
+    "favouriteMovies": [
+        {
+            "title": "terror",
+            "genre": "anime"
+        }
+    ]
+}
+
+### Update Persona
+PATCH  http://localhost:4000/person/2
+content-type: application/json
+
+{
+    "firstName": "Prueba",
+    "lastName": "Prueba",
+    "birthdate": "1999-02-18",
+    "hasInsurance": true,
+    "favouriteMovies": [
+        {
+            "title": "drama",
+            "genre": "anime"
+        }
+    ]
+}
+
+
+### Delete Persona
+DELETE  http://localhost:4000/person/22
+content-type: application/json
