@@ -42,7 +42,7 @@ const db: IPerson[] = [
 	},
 ];
 
-export class UsuarioCasoUso {
+export class PersonCasoUso {
 	public allPersons = async (): Promise<IPerson[]> => {
 		try {
 			const order = await db.sort((a, b) =>

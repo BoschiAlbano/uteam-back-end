@@ -1,4 +1,4 @@
-import { UsuarioCasoUso } from "../../2-aplicacion/person.casoUso";
+import { PersonCasoUso } from "../../2-aplicacion/person.casoUso";
 import { z } from "zod";
 
 // Esquema para Movie
@@ -46,16 +46,16 @@ class respose implements Iresponse {
 	data: object;
 }
 
-export class UsuarioController {
-	private readonly UsuarioCasoUso: UsuarioCasoUso;
+export class PersonController {
+	private readonly PersonCasoUso: PersonCasoUso;
 
-	constructor({ usuarioCasoUso }: { usuarioCasoUso: UsuarioCasoUso }) {
-		this.UsuarioCasoUso = usuarioCasoUso;
+	constructor({ personCasoUso }: { personCasoUso: PersonCasoUso }) {
+		this.PersonCasoUso = personCasoUso;
 	}
 
 	public allPerson = async (_req: any, res: any, next: any) => {
 		try {
-			const data = await this.UsuarioCasoUso.allPersons();
+			const data = await this.PersonCasoUso.allPersons();
 			return res.status(200).json(data);
 		} catch (error) {
 			return next(new Error("Error en el servidor."));
@@ -66,7 +66,7 @@ export class UsuarioController {
 		const { id } = req.params;
 
 		try {
-			const data = await this.UsuarioCasoUso.personById(id);
+			const data = await this.PersonCasoUso.personById(id);
 
 			if (!data) {
 				return res
@@ -86,7 +86,7 @@ export class UsuarioController {
 		const { name } = req.params;
 		console.log(name);
 		try {
-			const data = await this.UsuarioCasoUso.personByName(name);
+			const data = await this.PersonCasoUso.personByName(name);
 
 			if (!data) {
 				return res
@@ -108,7 +108,7 @@ export class UsuarioController {
 		try {
 			const validate = personSchema.parse(datos);
 
-			const data = await this.UsuarioCasoUso.createPerson(validate);
+			const data = await this.PersonCasoUso.createPerson(validate);
 
 			if (!data) {
 				return res
@@ -140,7 +140,7 @@ export class UsuarioController {
 		const { id } = req.params;
 
 		try {
-			const data = await this.UsuarioCasoUso.updatePerson(id, datos);
+			const data = await this.PersonCasoUso.updatePerson(id, datos);
 
 			if (!data) {
 				return res
@@ -162,7 +162,7 @@ export class UsuarioController {
 		const { id } = req.params;
 
 		try {
-			const data = await this.UsuarioCasoUso.deletePerson(id);
+			const data = await this.PersonCasoUso.deletePerson(id);
 
 			if (!data) {
 				return res

@@ -1,23 +1,23 @@
 import { Router } from "express";
-import { UsuarioController } from "../controllers/person.controller";
-import { UsuarioCasoUso } from "../../2-aplicacion/person.casoUso";
+import { PersonController } from "../controllers/person.controller";
+import { PersonCasoUso } from "../../2-aplicacion/person.casoUso";
 
 const _router = Router();
 
-const usuarioCasoUso = new UsuarioCasoUso();
+const personCasoUso = new PersonCasoUso();
 
-const usuarioController = new UsuarioController({ usuarioCasoUso });
+const personController = new PersonController({ personCasoUso });
 
-_router.get("/person", usuarioController.allPerson);
+_router.get("/person", personController.allPerson);
 
-_router.get("/person/id/:id", usuarioController.personById);
+_router.get("/person/id/:id", personController.personById);
 
-_router.get("/person/name/:name", usuarioController.personByName);
+_router.get("/person/name/:name", personController.personByName);
 
-_router.post("/person", usuarioController.createPerson);
+_router.post("/person", personController.createPerson);
 
-_router.patch("/person/:id", usuarioController.updatePerson);
+_router.patch("/person/:id", personController.updatePerson);
 
-_router.delete("/person/:id", usuarioController.deletePerson);
+_router.delete("/person/:id", personController.deletePerson);
 
 export default _router;
