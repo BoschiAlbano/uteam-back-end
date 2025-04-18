@@ -1,7 +1,4 @@
-export interface IMovie {
-	title: string;
-	genre: string;
-}
+import { IMovie } from "../../pelicula/1-dominio/IMovie.entidad";
 
 export interface IPerson {
 	id: number;

@@ -1,3 +1,4 @@
+import { db } from "../../db/db";
 import { CustomError } from "../../utilities/customError";
 import {
 	IPerson,
@@ -5,126 +6,70 @@ import {
 	IPersonPartial,
 } from "../1-dominio/IPerson.entidad";
 
-const db: IPerson[] = [
-	{
-		id: 1,
-		firstName: "pablo",
-		lastName: "lamberti",
-		birthdate: "1987-04-03",
-		hasInsurance: false,
-		favouriteMovies: [
-			{
-				title: "The Lord of the Rings",
-				genre: "fantasy",
-			},
-			{
-				title: "Pulp Fiction",
-				genre: "action",
-			},
-		],
-	},
-	{
-		id: 2,
-		firstName: "Albano",
-		lastName: "Boschi",
-		birthdate: "1987-04-03",
-		hasInsurance: false,
-		favouriteMovies: [
-			{
-				title: "The Lord of the Rings",
-				genre: "fantasy",
-			},
-			{
-				title: "Pulp Fiction",
-				genre: "action",
-			},
-		],
-	},
-];
-
 export class PersonCasoUso {
 	public allPersons = async (): Promise<IPerson[]> => {
-		try {
-			const order = await db.sort((a, b) =>
-				a.firstName < b.firstName && a.lastName < b.lastName ? -1 : 1
-			);
-			return order;
-		} catch (error) {
-			throw new CustomError("Error");
-		}
+		const order = await db.sort((a, b) =>
+			a.firstName < b.firstName && a.lastName < b.lastName ? -1 : 1
+		);
+		return order;
 	};
 
 	public personById = async (
 		id: number
 	): Promise<IPerson | null | undefined> => {
-		try {
-			const person = db.find((p) => p.id == id);
-			return person;
-		} catch (error: any) {
-			throw new CustomError("Error, persona no encontrada.");
-		}
+		const person = db.find((p) => p.id == id);
+		return person;
 	};
 
 	public personByName = async (
 		text: string
 	): Promise<IPerson | null | undefined> => {
-		try {
-			const person = db.find((p) =>
-				p.firstName.toLowerCase().includes(text.toLowerCase())
-			);
+		const person = db.find((p) =>
+			p.firstName.toLowerCase().includes(text.toLowerCase())
+		);
 
-			return person;
-		} catch (error) {
-			throw new CustomError("Error, persona no encontrada.");
-		}
+		return person;
 	};
 
 	public createPerson = async (
 		newPerson: IPersonOmitId
 	): Promise<IPerson | null | undefined> => {
-		try {
-			const maxId = Math.max(...db.map((p) => p.id));
+		const maxId = Math.max(...db.map((p) => p.id));
 
-			const person = { id: maxId + 1, ...newPerson };
-			db.unshift(person);
-			return person;
-		} catch (error) {
-			throw new CustomError("Error, persona no encontrada.");
-		}
+		const person: IPerson = {
+			id: maxId + 1,
+			...newPerson,
+			favouriteMovies: [],
+		};
+		db.unshift(person);
+		return person;
 	};
 
 	public updatePerson = async (
 		id: number,
 		PersonUpdate: IPersonPartial
 	): Promise<IPerson | null | undefined> => {
-		try {
-			const index = db.findIndex((p) => p.id == id);
+		const index = db.findIndex((p) => p.id == id);
 
-			if (index === -1) return null;
+		if (index === -1) throw new CustomError("Error, persona no encontrada.");
 
-			db[index] = { ...db[index], ...PersonUpdate };
+		PersonUpdate.favouriteMovies = db[index].favouriteMovies;
+		db[index] = { ...db[index], ...PersonUpdate };
 
-			return db[index];
-		} catch (error) {
-			throw new CustomError("Error, persona no encontrada.");
-		}
+		return db[index];
 	};
 
 	public deletePerson = async (
 		id: number
 	): Promise<IPerson | null | undefined> => {
-		try {
-			const index = db.findIndex((p) => p.id == id);
+		const index = db.findIndex((p) => p.id == id);
 
-			if (index === -1) return null;
+		if (index === -1) throw new CustomError("Error, persona no encontrada.");
 
-			const res = { ...db[index] };
+		const res = { ...db[index] };
 
-			db.splice(index, 1);
+		db.splice(index, 1);
 
-			return res;
-		} catch (error) {
-			throw new CustomError("Error, persona no encontrada.");
-		}
+		return res;
 	};
 }

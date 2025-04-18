@@ -1,8 +1,5 @@
-import { IMovie, IPerson } from "./IPerson.entidad";
-
-export class Movie implements IMovie {
-	constructor(public title: string, public genre: string) {}
-}
+// import { Movie } from "../../pelicula/1-dominio/movie.entidad";
+import { IPerson } from "./IPerson.entidad";
 
 export class Person implements IPerson {
 	constructor(
@@ -10,7 +7,7 @@ export class Person implements IPerson {
 		public firstName: string,
 		public lastName: string,
 		public birthdate: string,
-		public hasInsurance: boolean,
-		public favouriteMovies: Movie[]
-	) {}
+		public hasInsurance: boolean
+	) // public favouriteMovies: Movie[]
+	{}
 }

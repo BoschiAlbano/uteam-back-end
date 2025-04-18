@@ -1,16 +1,6 @@
+import { CustomError } from "../../../utilities/customError";
 import { PersonCasoUso } from "../../2-aplicacion/person.casoUso";
 import { z } from "zod";
-
-// Esquema para Movie
-const movieSchema = z.object({
-	title: z
-		.string({
-			required_error: "El título es requerido",
-			invalid_type_error: "El título debe ser un texto",
-		})
-		.min(1, "El título no puede estar vacío"),
-	genre: z.string().min(1, "El género no puede estar vacío"),
-});
 
 // Esquema para Person
 const personSchema = z.object({
@@ -23,10 +13,6 @@ const personSchema = z.object({
 		required_error: "El campo hasInsurance es requerido",
 		invalid_type_error: "hasInsurance debe ser true o false",
 	}),
-	favouriteMovies: z
-		.array(movieSchema)
-		.nonempty("Debe tener al menos una película favorita")
-		.optional(),
 });
 
 interface Iresponse {
@@ -56,8 +42,14 @@ export class PersonController {
 	public allPerson = async (_req: any, res: any, next: any) => {
 		try {
 			const data = await this.PersonCasoUso.allPersons();
-			return res.status(200).json(data);
+			return res
+				.status(200)
+				.json(new respose(200, "Personas encontradas.", data));
 		} catch (error) {
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};
@@ -78,13 +70,17 @@ export class PersonController {
 				.status(200)
 				.json(new respose(200, "Persona encontrada.", data));
 		} catch (error) {
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};
 
 	public personByName = async (req: any, res: any, next: any) => {
 		const { name } = req.params;
-		console.log(name);
+
 		try {
 			const data = await this.PersonCasoUso.personByName(name);
 
@@ -98,6 +94,10 @@ export class PersonController {
 				.status(200)
 				.json(new respose(200, "Persona encontrada.", data));
 		} catch (error) {
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};
@@ -131,6 +131,10 @@ export class PersonController {
 				);
 			}
 
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};
@@ -154,6 +158,10 @@ export class PersonController {
 				.status(200)
 				.json(new respose(200, "Persona actualizada.", data));
 		} catch (error) {
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};
@@ -174,6 +182,10 @@ export class PersonController {
 
 			return res.status(200).json(new respose(200, "Persona eliminada.", data));
 		} catch (error) {
+			if (error instanceof CustomError) {
+				return res.status(400).json(new respose(400, error.message, {}));
+			}
+
 			return next(new Error("Error en el servidor."));
 		}
 	};

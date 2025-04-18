@@ -2,7 +2,6 @@
 GET http://localhost:4000/person
 content-type: application/json
 
-
 ### Obtener Persona por Id
 GET http://localhost:4000/person/id/1
 content-type: application/json
@@ -19,13 +18,7 @@ content-type: application/json
     "firstName": "Albano",
     "lastName": "Albano",
     "birthdate": "1999-02-16",
-    "hasInsurance": false,
-    "favouriteMovies": [
-        {
-            "title": "terror",
-            "genre": "anime"
-        }
-    ]
+    "hasInsurance": false
 }
 
 ### Update Persona
@@ -41,11 +34,44 @@ content-type: application/json
         {
             "title": "drama",
             "genre": "anime"
+        },
+        {
+            "title": "drama",
+            "genre": "anime"
+        },
+        {
+            "title": "drama",
+            "genre": "anime"
+        },
+        {
+            "title": "drama",
+            "genre": "anime"
         }
     ]
 }
 
-
 ### Delete Persona
-DELETE  http://localhost:4000/person/22
+DELETE  http://localhost:4000/person/2
+content-type: application/json
+
+
+################################ Movies #################################
+
+### GET Movies 
+GET  http://localhost:4000/movie/person/1
+content-type: application/json
+
+
+### Add Movie 
+POST  http://localhost:4000/movie/person/1
+content-type: application/json
+
+{
+    "title": "Avatar",
+    "genre": "Action"
+}
+
+
+### Delete Movie 
+DELETE  http://localhost:4000/movie/person/1?movie=Avatar
 content-type: application/json
